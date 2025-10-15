@@ -330,8 +330,8 @@ function buildImageCandidates(basePath, category, drug, imageOverride){
   const name = sanitizeFilename(drug);
   const base = `${basePath}/${category}/${name}`;
   return [
-    `${base}.png`, `${base}.svg`,
-    `${base}.PNG`, `${base}.SVG`
+    `${base}.png`, `${base}.jpg`,
+    `${base}.PNG`, `${base}.JPG`
   ];
 }
 // Create an <img> that tries each candidate until one loads.
@@ -640,3 +640,4 @@ function scoreRound(){
 </script>
 </body>
 </html>
+
