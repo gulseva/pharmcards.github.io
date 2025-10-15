@@ -1,0 +1,15 @@
+Drug,Category,Target,Therapeutic,SAR,PK
+Degarelix,Hypothalamic_Hormones,GnRH Antagonist,A,B,C
+Cetrorelix,Hypothalamic_Hormones,GnRH Antagonist,A,B,C
+Elagolix,Hypothalamic_Hormones,GnRH Antagonist,A,B,C
+Relugolix,Hypothalamic_Hormones,GnRH Antagonist,A,B,C
+Gonadorelin,Hypothalamic_Hormones,GnRH Agonist,A,B,C
+Goserelin,Hypothalamic_Hormones,GnRH Agonist,A,B,C
+Histrelin,Hypothalamic_Hormones,GnRH Agonist,A,B,C
+Leuprolide,Hypothalamic_Hormones,GnRH Agonist,A,B,C
+Nafarelin,Hypothalamic_Hormones,GnRH Agonist,A,B,C
+Linzagolix,Hypothalamic_Hormones,GnRH Antagonist,A,B,C
+Octreotide,Hypothalamic_Hormones,SST antagonist,A,B,C
+Lanreotide,Hypothalamic_Hormones,SST antagonist,A,B,C
+Somatostatin,Hypothalamic_Hormones,SST agonist,A,B,C
+
