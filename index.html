@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Pharmacology Poker — CSV + Structures</title>
+<title>PharmCards</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>
   :root { 
@@ -236,7 +236,7 @@
 </style>
 </head>
 <body>
-<h1>Pharmacology Poker — CSV + Structures</h1>
+<h1>PharmCards</h1>
 
 <div class="instructions">
   <h3>How to Play</h3>
@@ -354,7 +354,7 @@ function createSmartImage(candidates, alt, onAllFail){
   return img;
 }
 /* ---------------- State ---------------- */
-let BASE_PATH = "structures";
+let BASE_PATH = "/root/structures";
 let FULL_DECK = []; // from CSV
 let SELECTED_CATS = new Set();
 let playerPrivate = [];
@@ -640,4 +640,5 @@ function scoreRound(){
 </script>
 </body>
 </html>
+
 
