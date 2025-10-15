@@ -318,7 +318,7 @@ function parseCSV(text){
 }
 function splitMulti(val){ return !val ? [] : val.split(';').map(s=>s.trim()).filter(Boolean); }
 function sanitizeFilename(drug){
-  return (drug||'').toLowerCase().trim().replace(/\s+/g,'_').replace(/[^a-z0-9_\-]/g,'');
+  return (drug||'').trim().replace(/\s+/g,'_').replace(/[^a-z0-9_\-]/g,'');
 }
 /* -------------- Robust image path handling -------------- */
 // Try PNG and SVG (both cases). Also allow CSV Image override.
@@ -392,7 +392,7 @@ window.addEventListener('load', async () => {
 function loadFromCSVText(text){
   const rows = parseCSV(text);
   if (!rows.length){ alert('CSV empty.'); return; }
-  const header = rows[0].map(h => h.toLowerCase());
+  const header = rows[0].map(h => h);
   const req = ['drug','category','target','therapeutic','sar','pk'];
   for (const k of req){ if (!header.includes(k)){ alert('Missing column: '+k); return; } }
   const idx = Object.fromEntries(header.map((h,i)=>[h,i]));
@@ -640,5 +640,6 @@ function scoreRound(){
 </script>
 </body>
 </html>
+
 
 
