@@ -354,7 +354,7 @@ function createSmartImage(candidates, alt, onAllFail){
   return img;
 }
 /* ---------------- State ---------------- */
-let BASE_PATH = "/root/structures";
+let BASE_PATH = "structures";
 let FULL_DECK = []; // from CSV
 let SELECTED_CATS = new Set();
 let playerPrivate = [];
@@ -401,13 +401,13 @@ function loadFromCSVText(text){
   for (let r=1; r<rows.length; r++){
     const row = rows[r];
     if (!row.length) continue;
-    const Drug = row[idx.drug] || '';
-    const Category = row[idx.category] || '';
+    const Drug = row[idx.Drug] || '';
+    const Category = row[idx.Category] || '';
     if (!Drug || !Category) continue;
-    const targets = splitMulti(row[idx.target]);
-    const therapeutic = splitMulti(row[idx.therapeutic]);
-    const sar = splitMulti(row[idx.sar]);
-    const pk = splitMulti(row[idx.pk]);
+    const targets = splitMulti(row[idx.Target]);
+    const therapeutic = splitMulti(row[idx.Therapeutic]);
+    const sar = splitMulti(row[idx.SAR]);
+    const pk = splitMulti(row[idx.PK]);
     const imageOverride = hasImageCol ? (row[idx.image] || '').trim() : '';
     // Store candidates; we’ll resolve on render
     const candidates = buildImageCandidates(BASE_PATH, Category, Drug, imageOverride);
@@ -640,6 +640,7 @@ function scoreRound(){
 </script>
 </body>
 </html>
+
 
 
 
