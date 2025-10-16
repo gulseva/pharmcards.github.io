@@ -14,160 +14,40 @@
     --warning: #ff9800;
     --danger: #f44336;
   }
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 20px;
-    background-color: #f5f7fa;
-    color: #333;
-  }
-  h1 {
-    margin: 0 0 10px;
-    color: var(--primary);
-    border-bottom: 2px solid var(--primary);
-    padding-bottom: 10px;
-  }
-  .row {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    margin-bottom: 20px;
-  }
-  .zone {
-    border: 2px solid var(--bd);
-    border-radius: 10px;
-    padding: 12px;
-    min-width: 300px;
-    flex: 1;
-    background: var(--bg);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  }
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 10px;
-  }
-  .card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 8px;
-    background: var(--card);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    position: relative;
-    overflow: hidden;
-  }
-  .card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  }
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 20px; background-color: #f5f7fa; color: #333; }
+  h1 { margin: 0 0 10px; color: var(--primary); border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
+  .row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 20px; }
+  .zone { border: 2px solid var(--bd); border-radius: 10px; padding: 12px; min-width: 300px; flex: 1; background: var(--bg); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+  .card { border: 1px solid #ccc; border-radius: 8px; padding: 8px; background: var(--card); cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden; }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
   .card.fixed { cursor: default; background: #f8f9fa; }
-  .card.selected {
-    outline: 3px solid var(--primary);
-    background: #e3f2fd;
-    border-color: var(--primary);
-  }
-  .structure {
-    width: 100%;
-    height: 195px;
-    display: grid;
-    place-items: center;
-    background: #fff;
-    border: 1px solid #e5e5e5;
-    border-radius: 6px;
-    margin-bottom: 6px;
-    overflow: hidden;
-    position: relative;
-  }
-  .structure img {
-    max-width: 100%;
-    max-height: 100%;
-    transition: transform 0.3s ease;
-    transform: scale(3.0);
-  }
+  .card.selected { outline: 3px solid var(--primary); background: #e3f2fd; border-color: var(--primary); }
+  .structure { width: 100%; height: 195px; display: grid; place-items: center; background: #fff; border: 1px solid #e5e5e5; border-radius: 6px; margin-bottom: 6px; overflow: hidden; position: relative; }
+  .structure img { max-width: 100%; max-height: 100%; transition: transform 0.3s ease; transform: scale(3.0); }
   .structure:hover img { transform: scale(3.2); }
-  .name {
-    font-size: 12px;
-    color: #666;
-    text-align:center;
-    padding: 5px;
-  }
-  .meta {
-    font-size: 12px;
-    color: #444;
-    margin-top: 6px;
-    line-height: 1.25;
-    display: none;
-  }
-  .tag {
-    display: inline-block;
-    border: 1px solid #bbb;
-    border-radius: 6px;
-    padding: 1px 6px;
-    margin: 2px 4px 0 0;
-    font-size: 11px;
-    background: #f0f0f0;
-  }
+  .name { font-size: 12px; color: #666; text-align:center; padding: 5px; }
+  .meta { font-size: 12px; color: #444; margin-top: 6px; line-height: 1.25; display: none; }
+  .tag { display: inline-block; border: 1px solid #bbb; border-radius: 6px; padding: 1px 6px; margin: 2px 4px 0 0; font-size: 11px; background: #f0f0f0; }
   .reveal-meta .meta { display: block !important; }
-  .filters {
-    border: 2px dashed var(--bd);
-    border-radius: 12px;
-    padding: 10px;
-    margin: 6px 0 14px;
-    background: #fff;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  }
+  .filters { border: 2px dashed var(--bd); border-radius: 12px; padding: 10px; margin: 6px 0 14px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
   .filters h4 { margin: 0 0 8px; color: var(--primary); }
   .filter-list { display: flex; flex-wrap: wrap; gap: 12px; }
-  .pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    border: 1px solid #bbb;
-    padding: 4px 8px;
-    border-radius: 999px;
-    background: #fafafa;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
+  .pill { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #bbb; padding: 4px 8px; border-radius: 999px; background: #fafafa; cursor: pointer; transition: all 0.2s ease; }
   .pill:hover { background: #e9ecef; }
-  .btns { display: flex; gap: 10px; margin: 12px 0; flex-wrap: wrap; }
-  button {
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid #aaa;
-    background: #f4f4f4;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.2s ease;
-  }
+  .controls { display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:6px; padding: 10px; background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  button { padding: 8px 12px; border-radius: 8px; border: 1px solid #aaa; background: #f4f4f4; cursor: pointer; font-weight: 600; transition: all 0.2s ease; }
   button:hover { background: #eee; transform: translateY(-2px); }
   button:active { transform: translateY(0); }
   button.primary { background: var(--primary); color: white; border-color: var(--primary); }
   button.success { background: var(--success); color: white; border-color: var(--success); }
-  .controls {
-    display:flex; gap:12px; align-items:center; flex-wrap:wrap;
-    margin-bottom:6px; padding: 10px; background: #fff; border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  }
-  .score {
-    font-weight: 600; font-size: 1.1em; padding: 10px; border-radius: 6px; margin: 10px 0;
-    background: #e3f2fd; border-left: 4px solid var(--primary);
-  }
-  .counter {
-    background: var(--primary); color: white; padding: 2px 8px; border-radius: 999px;
-    font-size: 0.9em; margin-left: 5px;
-  }
-  .instructions {
-    background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid var(--primary);
-  }
+  .score { font-weight: 600; font-size: 1.1em; padding: 10px; border-radius: 6px; margin: 10px 0; background: #e3f2fd; border-left: 4px solid var(--primary); }
+  .counter { background: var(--primary); color: white; padding: 2px 8px; border-radius: 999px; font-size: 0.9em; margin-left: 5px; }
+  .instructions { background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid var(--primary); }
   .instructions h3 { margin-top: 0; color: var(--primary); }
   .instructions ul { padding-left: 20px; }
   .instructions li { margin-bottom: 8px; }
-  .selected-cards-info {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 10px; padding: 10px; background: #e8f5e9; border-radius: 6px;
-  }
+  .selected-cards-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 10px; background: #e8f5e9; border-radius: 6px; }
 </style>
 </head>
 <body>
@@ -181,6 +61,12 @@
     <li>Click "Showdown" to compare your hand with the opponent's</li>
     <li>Win by having the best grouping!</li>
   </ul>
+</div>
+
+<!-- NEW: CSV loader so you can play without a server -->
+<div class="controls" style="margin-bottom:10px">
+  <input type="file" id="csvFile" accept=".csv" />
+  <button id="loadCsvBtn">Load CSV File</button>
 </div>
 
 <div class="controls">
@@ -251,20 +137,17 @@ function parseCSV(text){
   return rows;
 }
 function splitMulti(val){ return !val ? [] : val.split(';').map(s=>s.trim()).filter(Boolean); }
-function sanitizeFilename(drug){
-  // normalize to lowercase and keep common filename-safe chars
-  return (drug||'').trim().toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_.\-]/g,'');
+function sanitizeFilename(s){
+  return (s||'').trim().toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_.\-]/g,'');
 }
 /* -------------- Robust image path handling -------------- */
+let BASE_PATH = "structures";
 function buildImageCandidates(basePath, category, drug, imageOverride){
   if (imageOverride) return [imageOverride];
   const name = sanitizeFilename(drug);
   const cat = sanitizeFilename(category);
   const base = `${basePath}/${cat}/${name}`;
-  return [
-    `${base}.png`, `${base}.jpg`,
-    `${base}.PNG`, `${base}.JPG`
-  ];
+  return [`${base}.png`, `${base}.jpg`, `${base}.PNG`, `${base}.JPG`];
 }
 function createSmartImage(candidates, alt, onAllFail){
   const img = new Image();
@@ -272,8 +155,7 @@ function createSmartImage(candidates, alt, onAllFail){
   img.loading = 'lazy';
   let i = 0;
   const tryNext = () => {
-    if (i >= candidates.length) {
-      console.warn('All image candidates failed for', alt, candidates);
+    if (!candidates || i >= candidates.length) {
       if (onAllFail) onAllFail();
       return;
     }
@@ -283,8 +165,8 @@ function createSmartImage(candidates, alt, onAllFail){
   tryNext();
   return img;
 }
+
 /* ---------------- State ---------------- */
-let BASE_PATH = "structures";
 let FULL_DECK = []; // from CSV
 let SELECTED_CATS = new Set();
 let playerPrivate = [];
@@ -293,27 +175,36 @@ let community = [];
 let playerSelection = [];
 let aiSelection = [];
 const MAX_SELECTION = 6;
+
 /* ---------------- UI elems ---------------- */
-const dealBtn   = document.getElementById('dealBtn');
-const scoreBtn  = document.getElementById('scoreBtn');
-const selectBtn = document.getElementById('selectBtn');
-const resetBtn  = document.getElementById('resetBtn');
+const dealBtn    = document.getElementById('dealBtn');
+const scoreBtn   = document.getElementById('scoreBtn');
+const selectBtn  = document.getElementById('selectBtn');
+const resetBtn   = document.getElementById('resetBtn');
 const playerZone = document.getElementById('playerResultZone');
 const aiZone     = document.getElementById('aiResultZone');
-const cardCounter = document.getElementById('cardCounter');
+const cardCounter= document.getElementById('cardCounter');
+const csvFileInput = document.getElementById('csvFile');
+const loadCsvBtn   = document.getElementById('loadCsvBtn');
 
-/* Auto-load data on page load */
-window.addEventListener('load', async () => {
-  try{
-    const resp = await fetch('molecules.csv', {cache:'no-store'});
-    if (!resp.ok) throw new Error('fetch failed');
-    const text = await resp.text();
-    loadFromCSVText(text);
-  }catch(e){
-    console.error('Could not auto-load molecules.csv:', e);
-    alert('Could not auto-load molecules.csv. Please ensure the file is available next to this HTML file.');
-  }
-});
+/* ---------------- Demo deck (fallback) ---------------- */
+function loadDemoDeck(){
+  FULL_DECK = [
+    {name:'Omeprazole', category:'PPI', imgCandidates:[], targets:['H+/K+ ATPase'], therapeutic:['GERD'], sar:['Benzimidazole'], pk:['Prodrug']},
+    {name:'Lansoprazole', category:'PPI', imgCandidates:[], targets:['H+/K+ ATPase'], therapeutic:['Ulcer'], sar:['Trifluoroethoxy'], pk:['Prodrug']},
+    {name:'Rabeprazole', category:'PPI', imgCandidates:[], targets:['H+/K+ ATPase'], therapeutic:['Ulcer'], sar:['Thioether'], pk:['Fast onset']},
+    {name:'Famotidine', category:'H2', imgCandidates:[], targets:['H2 receptor'], therapeutic:['GERD'], sar:['Thiazole'], pk:['Renal']},
+    {name:'Ranitidine', category:'H2', imgCandidates:[], targets:['H2 receptor'], therapeutic:['Ulcer'], sar:['Dimethylamino'], pk:['Short t½']},
+    {name:'Diphenhydramine', category:'H1', imgCandidates:[], targets:['H1 receptor'], therapeutic:['Allergy'], sar:['Diarylether'], pk:['Sedating']},
+    {name:'Loratadine', category:'H1', imgCandidates:[], targets:['H1 receptor'], therapeutic:['Allergy'], sar:['Carbamate'], pk:['Non-sedating']},
+    {name:'Atorvastatin', category:'Statin', imgCandidates:[], targets:['HMG-CoA reductase'], therapeutic:['Lipids'], sar:['Fluorophenyl'], pk:['Hepatic']},
+    {name:'Simvastatin', category:'Statin', imgCandidates:[], targets:['HMG-CoA reductase'], therapeutic:['Lipids'], sar:['Lactone'], pk:['Prodrug']},
+    {name:'Clopidogrel', category:'Antiplatelet', imgCandidates:[], targets:['P2Y12'], therapeutic:['ACS'], sar:['Thienopyridine'], pk:['Prodrug']},
+  ];
+  buildFilters();
+  enablePlayUI(true);
+  clearTable();
+}
 
 /* ---------------- Build deck from CSV ---------------- */
 function loadFromCSVText(text){
@@ -323,6 +214,280 @@ function loadFromCSVText(text){
   // Case-agnostic header map
   const header = rows[0];
   const lowerToIndex = {};
-  header.forEach((h,i)=> lowerToIndex[h.trim().toLowerCase()] = i);
+  header.forEach((h,i)=> lowerToIndex[(h||'').trim().toLowerCase()] = i);
 
-  const required = ['drug','category','target','therapeutic','sar','pk']
+  const required = ['drug','category','target','therapeutic','sar','pk'];
+  for (const k of required){
+    if (!(k in lowerToIndex)){ alert('Missing column: '+k); return; }
+  }
+  const hasImageCol = ('image' in lowerToIndex);
+
+  const deck = [];
+  for (let r=1; r<rows.length; r++){
+    const row = rows[r];
+    if (!row || !row.length) continue;
+
+    const Drug       = row[lowerToIndex['drug']] || '';
+    const Category   = row[lowerToIndex['category']] || '';
+    if (!Drug || !Category) continue;
+
+    const targets      = splitMulti(row[lowerToIndex['target']] || '');
+    const therapeutic  = splitMulti(row[lowerToIndex['therapeutic']] || '');
+    const sar          = splitMulti(row[lowerToIndex['sar']] || '');
+    const pk           = splitMulti(row[lowerToIndex['pk']] || '');
+    const imageOverride= hasImageCol ? ((row[lowerToIndex['image']] || '').trim()) : '';
+
+    const candidates = buildImageCandidates(BASE_PATH, Category, Drug, imageOverride);
+    deck.push({ name: Drug, category: Category, imgCandidates: candidates, targets, therapeutic, sar, pk });
+  }
+  if (!deck.length){ alert('No valid rows found.'); return; }
+
+  FULL_DECK = deck;
+  buildFilters();
+  enablePlayUI(true);
+  clearTable();
+}
+
+/* ---------------- Filters ---------------- */
+function buildFilters(){
+  const cats = Array.from(new Set(FULL_DECK.map(c=>c.category))).sort();
+  const list = document.getElementById('filterList');
+  list.innerHTML = '';
+  SELECTED_CATS = new Set(cats);
+  cats.forEach(cat=>{
+    const id = 'cat_'+cat.replace(/\s+/g,'_');
+    const pill = document.createElement('label');
+    pill.className = 'pill';
+    pill.innerHTML = `<input type="checkbox" id="${id}" checked/> ${cat}`;
+    pill.querySelector('input').addEventListener('change', (e)=>{
+      if (e.target.checked) SELECTED_CATS.add(cat); else SELECTED_CATS.delete(cat);
+    });
+    list.appendChild(pill);
+  });
+}
+function filteredDeck(){
+  if (!SELECTED_CATS.size) return [];
+  return FULL_DECK.filter(c => SELECTED_CATS.has(c.category));
+}
+
+/* ---------------- Helpers ---------------- */
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
+function makeCardEl(card, clickHandler=null, fixed=false){
+  const el = document.createElement('div');
+  el.className = 'card' + (fixed ? ' fixed' : '');
+  const struct = document.createElement('div');
+  struct.className = 'structure';
+  const img = createSmartImage(card.imgCandidates, card.name, ()=>{
+    struct.innerHTML = `<div class="name">${card.name}</div>`;
+  });
+  if (img) struct.appendChild(img);
+  el.appendChild(struct);
+
+  const meta = document.createElement('div');
+  meta.className = 'meta';
+  meta.innerHTML = `
+    <div><span class="tag">Cat:</span> ${card.category}</div>
+    <div><span class="tag">Target:</span> ${card.targets.join(", ")||"—"}</div>
+    <div><span class="tag">Therapeutic:</span> ${card.therapeutic.join(", ")||"—"}</div>
+    <div><span class="tag">SAR:</span> ${card.sar.join(", ")||"—"}</div>
+    <div><span class="tag">PK:</span> ${card.pk.join(", ")||"—"}</div>
+  `;
+  el.appendChild(meta);
+
+  if (clickHandler && !fixed) el.addEventListener('click', ()=>clickHandler(card, el));
+  return el;
+}
+
+/* ---------------- Evaluation logic ---------------- */
+const CATEGORY_ORDER = ["targets","therapeutic","sar","pk"];
+function bestGrouping(cards){
+  let best = {tier:999, matches:0, specificity:0, reason:"No grouping", cat:null, value:null, members:[]};
+  CATEGORY_ORDER.forEach((cat, idx)=>{
+    const map = new Map();
+    for (const c of cards){
+      (c[cat]||[]).forEach(v=>{
+        if (!map.has(v)) map.set(v, []);
+        map.get(v).push(c);
+      });
+    }
+    for (const [val, list] of map.entries()){
+      const cand = {
+        tier: idx+1,
+        matches: list.length,
+        specificity: (val||"").length,
+        reason: `${val} (${cat}, x${list.length})`,
+        cat, value: val,
+        members: list
+      };
+      if (isBetter(cand, best)) best = cand;
+    }
+  });
+  return best;
+}
+function isBetter(a,b){
+  if (a.tier !== b.tier) return a.tier < b.tier;
+  if (a.matches !== b.matches) return a.matches > b.matches;
+  if (a.specificity !== b.specificity) return a.specificity > b.specificity;
+  return (a.reason||"") > (b.reason||"");
+}
+function explainEval(ev){
+  const names = {1:"Target",2:"Therapeutic",3:"SAR",4:"PK"};
+  return `${names[ev.tier]} • ${ev.reason}`;
+}
+function compareEval(a,b){ return isBetter(a,b) ? 1 : (isBetter(b,a) ? -1 : 0); }
+
+/* ---------------- Game flow ---------------- */
+dealBtn.addEventListener('click', deal);
+scoreBtn.addEventListener('click', scoreRound);
+selectBtn.addEventListener('click', selectAllCards);
+resetBtn.addEventListener('click', resetGame);
+
+function enablePlayUI(on){
+  dealBtn.disabled = !on;
+  scoreBtn.disabled = !on;
+  selectBtn.disabled = !on;
+  resetBtn.disabled = !on;
+  document.getElementById('filtersBox').style.display = on ? '' : 'none';
+}
+function clearTable(){
+  ['playerPrivate','community','playerSelected','aiSelected','playerEval','aiEval']
+    .forEach(id => document.getElementById(id).innerHTML = '');
+  document.getElementById('selCount').textContent = '0';
+  playerZone.classList.remove('reveal-meta');
+  aiZone.classList.remove('reveal-meta');
+  cardCounter.textContent = `0/${MAX_SELECTION}`;
+}
+function deal(){
+  const deck = filteredDeck();
+  if (deck.length < 10){ alert("Not enough cards in selected categories (need ≥ 10)."); return; }
+  const pool = shuffle([...deck]);
+  playerPrivate = pool.splice(0,4);
+  aiPrivate     = pool.splice(0,4);
+  community     = pool.splice(0,2);
+  playerSelection = [];
+  aiSelection     = [];
+  renderAll();
+}
+function renderAll(){
+  const pPriv = document.getElementById('playerPrivate');
+  const comm  = document.getElementById('community');
+  const pSel  = document.getElementById('playerSelected');
+  const aSel  = document.getElementById('aiSelected');
+  const pEval = document.getElementById('playerEval');
+  const aEval = document.getElementById('aiEval');
+  [pPriv, comm, pSel, aSel].forEach(x => x.innerHTML="");
+  pEval.innerHTML = ""; aEval.innerHTML="";
+  playerZone.classList.remove('reveal-meta');
+  aiZone.classList.remove('reveal-meta');
+
+  [...playerPrivate, ...community].forEach(card=>{
+    const el = makeCardEl(card, (c,node)=>{
+      const idx = playerSelection.indexOf(c);
+      if (idx>=0){
+        playerSelection.splice(idx,1);
+        node.classList.remove('selected');
+      } else {
+        if (playerSelection.length >= MAX_SELECTION) {
+          alert(`You can only select up to ${MAX_SELECTION} cards!`);
+          return;
+        }
+        playerSelection.push(c);
+        node.classList.add('selected');
+      }
+      updateSelected();
+    });
+    if (playerSelection.includes(card)) el.classList.add('selected');
+    (playerPrivate.includes(card) ? pPriv : comm).appendChild(el);
+  });
+
+  updateSelected();
+  enableButtons(true);
+}
+function updateSelected(){
+  const pSel = document.getElementById('playerSelected');
+  pSel.innerHTML = '';
+  playerSelection.forEach(c => pSel.appendChild(makeCardEl(c, null, true)));
+  document.getElementById('selCount').textContent = playerSelection.length.toString();
+  cardCounter.textContent = `${playerSelection.length}/${MAX_SELECTION}`;
+}
+function selectAllCards(){
+  const allCards = [...playerPrivate, ...community];
+  if (allCards.length > MAX_SELECTION) {
+    alert(`Too many cards available (${allCards.length}). Maximum selection is ${MAX_SELECTION}.`);
+    return;
+  }
+  playerSelection = [...allCards];
+  renderAll();
+}
+function resetGame(){
+  playerSelection = [];
+  aiSelection = [];
+  clearTable();
+  enableButtons(false);
+  selectBtn.disabled = true;
+  resetBtn.disabled = true;
+}
+function enableButtons(on){
+  dealBtn.disabled = !on;
+  scoreBtn.disabled = !on;
+  selectBtn.disabled = !on;
+  resetBtn.disabled = !on;
+}
+
+/* Opponent choice */
+function aiChoose(){
+  const pool = [...aiPrivate, ...community];
+  const aEv = bestGrouping(pool);
+  aiSelection = aEv.members.length ? aEv.members : pool.slice(0, Math.min(3, pool.length));
+  return aEv;
+}
+function scoreRound(){
+  if (!playerSelection.length){ alert('Select at least one card.'); return; }
+  const pEv = bestGrouping(playerSelection);
+  const aEv = aiSelection.length ? bestGrouping(aiSelection) : aiChoose();
+
+  playerZone.classList.add('reveal-meta');
+  aiZone.classList.add('reveal-meta');
+
+  const pSel = document.getElementById('playerSelected');
+  const aSel = document.getElementById('aiSelected');
+  const pEval = document.getElementById('playerEval');
+  const aEval = document.getElementById('aiEval');
+
+  pSel.innerHTML = '';  pEv.members.forEach(c => pSel.appendChild(makeCardEl(c, null, true)));
+  aSel.innerHTML = '';  aEv.members.forEach(c => aSel.appendChild(makeCardEl(c, null, true)));
+
+  pEval.innerHTML = `<p class="score">You: ${explainEval(pEv)} — cards used: ${pEv.matches}</p>`;
+  aEval.innerHTML = `<p class="score">Opponent: ${explainEval(aEv)} — cards used: ${aEv.matches}</p>`;
+
+  const result = compareEval(pEv, aEv);
+  if (result>0) aEval.innerHTML += "<p>Result: You <strong>WIN</strong> 🎉</p>";
+  else if (result<0) aEval.innerHTML += "<p>Result: You <strong>LOSE</strong> 😬</p>";
+  else aEval.innerHTML += "<p>Result: <strong>TIE</strong> — argue specificity!</p>";
+}
+
+/* ---------------- Load CSV button ---------------- */
+if (loadCsvBtn) {
+  loadCsvBtn.addEventListener('click', async () => {
+    const f = csvFileInput?.files?.[0];
+    if (!f) { alert('Pick a CSV file first.'); return; }
+    const text = await f.text();
+    loadFromCSVText(text);
+  });
+}
+
+/* ---------------- Startup: try fetch, else demo ---------------- */
+window.addEventListener('load', async () => {
+  try{
+    const resp = await fetch('molecules.csv', {cache:'no-store'});
+    if (!resp.ok) throw new Error('fetch failed');
+    const text = await resp.text();
+    loadFromCSVText(text);
+  }catch(e){
+    console.warn('Auto-load failed (likely file:// or missing CSV). Enabling demo deck.', e);
+    loadDemoDeck(); // buttons enabled; you can still load your CSV via the file picker
+  }
+});
+</script>
+</body>
+</html>
