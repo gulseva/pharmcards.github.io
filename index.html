@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Pharmacology Poker — CSV + Structures</title>
+<title>PharmCards </title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>
   :root {
@@ -336,7 +336,7 @@ function sanitizeFilename(drug){
   return (drug||'').toLowerCase().trim().replace(/\s+/g,'_').replace(/[^a-z0-9_\-]/g,'');
 }
 /* -------------- Robust image path handling -------------- */
-// Try PNG and SVG (both cases). Also allow CSV Image override.
+// Try PNG and JPG (both cases). Also allow CSV Image override.
 function buildImageCandidates(basePath, category, drug, imageOverride){
   if (imageOverride) {
     // If user provided a path in CSV, use exactly that (relative to site root).
@@ -345,8 +345,8 @@ function buildImageCandidates(basePath, category, drug, imageOverride){
   const name = sanitizeFilename(drug);
   const base = `${basePath}/${category}/${name}`;
   return [
-    `${base}.png`, `${base}.svg`,
-    `${base}.PNG`, `${base}.SVG`
+    `${base}.png`, `${base}.jpg`, `${base}.jpeg`
+    `${base}.PNG`, `${base}.JPG` `${base}.JPEG`
   ];
 }
 // Create an <img> that tries each candidate until one loads.
@@ -687,3 +687,4 @@ function scoreRound(){
 </script>
 </body>
 </html>
+
