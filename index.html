@@ -21,7 +21,7 @@
   /* Masonry columns for variable-height cards (no row equalization) */
   .cards.masonry {
     display: block !important;      /* override grid */
-    column-width: 280px;            /* base card width; tweak to taste */
+    column-width: clamp(200px, 24vw, 240px); /* min 200, fluid, max 280 */
     column-gap: 12px;
   }
   .cards.masonry .card {
@@ -590,4 +590,5 @@ function scoreRound(){
 </script>
 </body>
 </html>
+
 
