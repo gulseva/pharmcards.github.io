@@ -6,86 +6,95 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>
   :root {
-    --bd: #ddd;
-    --bg: #fcfcfc;
-    --card: #fff;
-    --primary: #4a6fa5;
-    --success: #4caf50;
-    --warning: #ff9800;
-    --danger: #f44336;
+    --bd: #ddd; --bg: #fcfcfc; --card: #fff;
+    --primary: #4a6fa5; --success: #4caf50; --warning: #ff9800; --danger: #f44336;
   }
-  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 20px; background-color: #f5f7fa; color: #333; }
+  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 20px; background: #f5f7fa; color: #333; }
   h1 { margin: 0 0 10px; color: var(--primary); border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
+
   .row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 20px; }
-  .zone { border: 2px solid var(--bd); border-radius: 10px; padding: 12px; min-width: 300px; flex: 1; background: var(--bg); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 12px;
+  .zone { border: 2px solid var(--bd); border-radius: 10px; padding: 12px; min-width: 300px; flex: 1; background: var(--bg); box-shadow: 0 2px 5px rgba(0,0,0,.05); }
+
+  /* Default grid list (used for selected/AI areas) */
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+
+  /* Masonry columns for variable-height cards (no row equalization) */
+  .cards.masonry {
+    display: block !important;      /* override grid */
+    column-width: 220px;            /* base card width; tweak to taste */
+    column-gap: 12px;
   }
-  .card { border: 1px solid #ccc; border-radius: 8px; padding: 8px; background: var(--card); cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden; }
-  .card:hover { transform: translateY(-3px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+  .cards.masonry .card {
+    display: inline-block;
+    width: 100%;
+    margin: 0 0 12px;
+    break-inside: avoid;
+  }
+
+  .card { border: 1px solid #ccc; border-radius: 8px; padding: 8px; background: var(--card); cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; position: relative; overflow: hidden; }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 4px 8px rgba(0,0,0,.1); }
   .card.fixed { cursor: default; background: #f8f9fa; }
   .card.selected { outline: 3px solid var(--primary); background: #e3f2fd; border-color: var(--primary); }
+
+  /* Structure viewport: we'll set exact aspect ratio per-image via JS */
   .structure {
     width: 100%;
-    aspect-ratio: 4 / 3; /* default landscape */
-    display: grid;
-    place-items: center;
-    background: #fff;
-    border: 1px solid #e5e5e5;
-    border-radius: 6px;
-    margin-bottom: 6px;
-    overflow: hidden;
-    position: relative;
+    aspect-ratio: 4 / 3; /* default before image loads */
+    display: grid; place-items: center;
+    background: #fff; border: 1px solid #e5e5e5;
+    border-radius: 6px; margin-bottom: 6px;
+    overflow: hidden; position: relative;
   }
   .structure img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* best-fit scaling for legibility */
-    transition: transform 0.2s ease;
-    transform: none;
+    width: 100%; height: 100%;
+    object-fit: contain;                 /* best-fit scaling */
+    image-orientation: from-image;       /* honor EXIF orientation */
+    transition: transform .2s ease;
   }
   .structure:hover img { transform: scale(1.03); }
+
   .meta { font-size: 12px; color: #444; margin-top: 6px; line-height: 1.25; display: none; }
   .tag { display: inline-block; border: 1px solid #bbb; border-radius: 6px; padding: 1px 6px; margin: 2px 4px 0 0; font-size: 11px; background: #f0f0f0; }
   .reveal-meta .meta { display: block !important; }
-  .filters { border: 2px dashed var(--bd); border-radius: 12px; padding: 10px; margin: 6px 0 14px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+
+  .filters { border: 2px dashed var(--bd); border-radius: 12px; padding: 10px; margin: 6px 0 14px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
   .filters h4 { margin: 0 0 8px; color: var(--primary); }
   .filter-list { display: flex; flex-wrap: wrap; gap: 12px; }
-  .pill { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #bbb; padding: 4px 8px; border-radius: 999px; background: #fafafa; cursor: pointer; transition: all 0.2s ease; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #bbb; padding: 4px 8px; border-radius: 999px; background: #fafafa; cursor: pointer; }
   .pill:hover { background: #e9ecef; }
+
   .btns { display: flex; gap: 10px; margin: 12px 0; flex-wrap: wrap; }
-  button { padding: 8px 12px; border-radius: 8px; border: 1px solid #aaa; background: #f4f4f4; cursor: pointer; font-weight: 600; transition: all 0.2s ease; }
+  button { padding: 8px 12px; border-radius: 8px; border: 1px solid #aaa; background: #f4f4f4; cursor: pointer; font-weight: 600; transition: background .2s ease, transform .2s ease; }
   button:hover { background: #eee; transform: translateY(-2px); }
   button:active { transform: translateY(0); }
-  button.primary { background: var(--primary); color: white; border-color: var(--primary); }
-  button.success { background: var(--success); color: white; border-color: var(--success); }
-  .controls { display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:6px; padding: 10px; background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  button.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+  button.success { background: var(--success); color: #fff; border-color: var(--success); }
+
+  .controls { display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:6px; padding: 10px; background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
   .score { font-weight: 600; font-size: 1.1em; padding: 10px; border-radius: 6px; margin: 10px 0; background: #e3f2fd; border-left: 4px solid var(--primary); }
-  .counter { background: var(--primary); color: white; padding: 2px 8px; border-radius: 999px; font-size: 0.9em; margin-left: 5px; }
+  .counter { background: var(--primary); color: #fff; padding: 2px 8px; border-radius: 999px; font-size: .9em; margin-left: 5px; }
+
   .instructions { background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid var(--primary); }
   .instructions h3 { margin-top: 0; color: var(--primary); }
   .instructions ul { padding-left: 20px; }
   .instructions li { margin-bottom: 8px; }
-  .selected-cards-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 10px; background: #e8f5e9; border-radius: 6px; }
-  #fileInputContainer { display:none; margin-bottom: 15px; padding: 10px; background: #f0f8ff; border-radius: 8px; border: 1px solid #b0d4f1; }
+
+  /* Manual loader visible by default; hide only after successful auto-load */
+  #fileInputContainer { margin-bottom: 15px; padding: 10px; background: #f0f8ff; border-radius: 8px; border: 1px solid #b0d4f1; }
   #fileInputContainer input { margin: 5px 0; width: 100%; padding: 8px; }
-  #fileInputContainer button { margin-top: 10px; padding: 8px 15px; background: var(--primary); color: white; border: none; border-radius: 5px; cursor: pointer; }
-  /* Orientation-aware card aspect ratios */
-  .card.landscape .structure { aspect-ratio: 16 / 9; }
-  .card.portrait  .structure { aspect-ratio: 3 / 4; }
-  .card.square    .structure { aspect-ratio: 1 / 1; }
+  #fileInputContainer button { margin-top: 10px; padding: 8px 15px; background: var(--primary); color: #fff; border: none; border-radius: 5px; cursor: pointer; }
 </style>
 </head>
 <body>
 <h1>PharmCards</h1>
+
 <div id="fileInputContainer">
-  <h3>Load Data (fallback)</h3>
+  <h3>Load Data</h3>
   <input type="file" id="csvFile" accept=".csv" />
   <input type="text" id="basePath" placeholder="Base path for structures (default: structures)" value="structures" />
   <button id="loadCsv">Load CSV and Structures</button>
 </div>
+
 <div class="instructions">
   <h3>How to Play</h3>
   <ul>
@@ -95,26 +104,30 @@
     <li>Win by having the best grouping!</li>
   </ul>
 </div>
+
 <div class="controls">
   <button id="dealBtn" disabled>Deal New Round</button>
   <button id="scoreBtn" disabled>Showdown / Score Round</button>
   <button id="selectBtn" disabled>Select All Cards</button>
   <button id="resetBtn" disabled>Reset Game</button>
 </div>
+
 <div class="filters" id="filtersBox" style="display:none;">
   <h4>Included Categories</h4>
   <div id="filterList" class="filter-list"></div>
 </div>
+
 <div class="row">
   <div class="zone">
     <h3>Your Private Cards (4)</h3>
-    <div id="playerPrivate" class="cards"></div>
+    <div id="playerPrivate" class="cards masonry"></div>
   </div>
   <div class="zone">
     <h3>Community Cards (2)</h3>
-    <div id="community" class="cards"></div>
+    <div id="community" class="cards masonry"></div>
   </div>
 </div>
+
 <div class="row">
   <div class="zone" id="playerResultZone">
     <h3>Your Hand (<span id="selCount">0</span> selected)</h3>
@@ -131,10 +144,12 @@
     <div id="aiEval"></div>
   </div>
 </div>
+
 <script>
 /* ---------------- CSV parsing ---------------- */
 function parseCSV(text){
-  const rows = []; let i = 0, cur = [], field = '', inQuotes = false;
+  const rows = [];
+  let i = 0, cur = [], field = '', inQuotes = false;
   while (i < text.length){
     const ch = text[i];
     if (inQuotes){
@@ -158,59 +173,89 @@ function parseCSV(text){
   return rows;
 }
 function splitMulti(val){ return !val ? [] : val.split(';').map(s=>s.trim()).filter(Boolean); }
-function sanitizeFilename(drug){ return (drug||'').toLowerCase().trim().replace(/\s+/g,'_').replace(/[^a-z0-9_\-]/g,''); }
+
+/* ---------------- Filename helpers ---------------- */
+function slugLower(s, sep = '_') {
+  return (s || '')
+    .toLowerCase().trim()
+    .replace(/\s+/g, sep)
+    .replace(/[^a-z0-9_\-]/g, '');
+}
+function slugKeep(s, sep = '_') {
+  return (s || '')
+    .trim()
+    .replace(/\s+/g, sep)
+    .replace(/[^a-zA-Z0-9_\-]/g, '');
+}
 
 /* -------------- Robust image path handling -------------- */
-// Try PNG/JPG/JPEG (lower/upper). Also allow CSV Image override. Try with and without category subfolder.
 function buildImageCandidates(basePath, category, drug, imageOverride){
-  const candidates = [];
+  const out = [];
+
+  // CSV override (try as-is and under base path)
   if (imageOverride) {
-    // If CSV provided a path, try as-is and also under basePath
-    candidates.push(imageOverride);
-    candidates.push(`${basePath}/${imageOverride}`);
+    const cleaned = imageOverride.replace(/^\.?\//,'');
+    out.push(imageOverride, `${basePath}/${cleaned}`);
   }
-  const nameSan = sanitizeFilename(drug);
-  const nameDash = (drug||'').toLowerCase().trim().replace(/\s+/g,'-').replace(/[^a-z0-9_\-]/g,'');
-  const nameRaw = (drug||'').trim();
-  const names = [nameSan, nameDash, nameRaw];
-  const exts = ['png','jpg','jpeg','PNG','JPG','JPEG'];
-  const prefixes = [
-    `${basePath}/${category}`, // base/category/name.ext
-    `${basePath}`              // base/name.ext
+
+  // Name variants
+  const names = [
+    slugLower(drug, '_'),
+    slugLower(drug, '-'),
+    slugKeep(drug, '_'),
+    slugKeep(drug, '-'),
+    (drug || '').trim()
   ];
-  for (const pre of prefixes){
-    for (const nm of names){
-      for (const ex of exts){ candidates.push(`${pre}/${nm}.${ex}`); }
+
+  // Category variants
+  const cats = [
+    slugLower(category, '_'),
+    slugLower(category, '-'),
+    slugKeep(category, '_'),
+    slugKeep(category, '-'),
+    (category || '').trim()
+  ];
+
+  const exts = ['png','jpg','jpeg','PNG','JPG','JPEG'];
+
+  // base/category/name.ext
+  for (const c of cats) {
+    for (const n of names) {
+      for (const e of exts) out.push(`${basePath}/${c}/${n}.${e}`);
     }
   }
-  return Array.from(new Set(candidates));
+  // base/name.ext
+  for (const n of names) {
+    for (const e of exts) out.push(`${basePath}/${n}.${e}`);
+  }
+
+  return Array.from(new Set(out));
 }
+
 // Create an <img> that tries each candidate until one loads.
 function createSmartImage(candidates, alt, onAllFail, onLoad){
   const img = new Image();
-  img.alt = alt; img.loading = 'lazy';
+  img.alt = alt;
+  img.loading = 'lazy';
   let i = 0;
+
   const tryNext = () => {
     if (i >= candidates.length) { if (onAllFail) onAllFail(); return; }
     const src = candidates[i++];
-    // bind handlers once
+
     img.onerror = () => tryNext();
-    img.onload = () => { if (onLoad) onLoad(img); };
+    img.onload  = () => { if (onLoad) onLoad(img); };
+
     img.src = src;
-    // handle instant-cache case where onload may not fire in some browsers
+
+    // handle instant-cache
     if (img.complete && img.naturalWidth) {
       if (onLoad) onLoad(img);
     } else if (img.decode) {
-      img.decode().then(()=>{ if (onLoad) onLoad(img); }).catch(()=>{/* ignore */});
+      img.decode().then(()=>{ if (onLoad) onLoad(img); }).catch(()=>{});
     }
   };
-  tryNext();
-  return img;
-}
-    const src = candidates[i++]; img.src = src;
-  };
-  img.onerror = () => tryNext();
-  img.onload = () => { /* loaded! */ };
+
   tryNext();
   return img;
 }
@@ -219,59 +264,66 @@ function createSmartImage(candidates, alt, onAllFail, onLoad){
 let BASE_PATH = 'structures';
 let FULL_DECK = []; // from CSV
 let SELECTED_CATS = new Set();
-let playerPrivate = []; let aiPrivate = []; let community = [];
-let playerSelection = []; let aiSelection = [];
+let playerPrivate = [];
+let aiPrivate = [];
+let community = [];
+let playerSelection = [];
+let aiSelection = [];
 let MAX_SELECTION = 6;
 
 /* ---------------- UI elems ---------------- */
-const csvInput = document.getElementById('csvFile');
+const csvInput  = document.getElementById('csvFile');
 const basePathInput = document.getElementById('basePath');
-const loadBtn = document.getElementById('loadCsv');
-const dealBtn = document.getElementById('dealBtn');
-const scoreBtn = document.getElementById('scoreBtn');
+const loadBtn   = document.getElementById('loadCsv');
+const dealBtn   = document.getElementById('dealBtn');
+const scoreBtn  = document.getElementById('scoreBtn');
 const selectBtn = document.getElementById('selectBtn');
-const resetBtn = document.getElementById('resetBtn');
+const resetBtn  = document.getElementById('resetBtn');
 const playerZone = document.getElementById('playerResultZone');
-const aiZone = document.getElementById('aiResultZone');
+const aiZone     = document.getElementById('aiResultZone');
 const cardCounter = document.getElementById('cardCounter');
 
-// Fallback controls
+/* Fallback loader */
 loadBtn.addEventListener('click', loadFromFile);
 csvInput.addEventListener('change', handleFileSelect);
 
 /* ---------------- Auto-load CSV on page load ---------------- */
 window.addEventListener('load', async () => {
-  // You can change DEFAULT_BASE to '/root/structures' if your server actually serves that path.
-  const DEFAULT_BASE = 'structures';
-  BASE_PATH = DEFAULT_BASE;
-  // Try current path first, then absolute root as fallback.
-  const tryPaths = ['./molecules.csv', '/molecules.csv'];
-  for (const p of tryPaths){
-    try {
-      const resp = await fetch(p, { cache: 'no-store' });
-      if (resp.ok) {
-        const text = await resp.text();
-        loadFromCSVText(text);
-        return; // success
+  try {
+    BASE_PATH = 'structures';
+    const tryPaths = ['./molecules.csv', '/molecules.csv'];
+    for (const p of tryPaths){
+      try {
+        const resp = await fetch(p, { cache: 'no-store' });
+        if (resp.ok) {
+          const text = await resp.text();
+          loadFromCSVText(text);
+          // hide loader only on success
+          const fic = document.getElementById('fileInputContainer');
+          if (fic) fic.style.display = 'none';
+          return;
+        }
+      } catch (e) {
+        console.warn('Auto-load failed for', p, e);
       }
-    } catch (e) { /* continue to next */ }
+    }
+    // If here, auto-load failed; manual loader stays visible.
+  } catch (e) {
+    console.error('Auto-load error:', e);
   }
-  // If we got here, show manual loader as a fallback
-  document.getElementById('fileInputContainer').style.display = 'block';
 });
 
-// Load from file selection (fallback only)
+/* ---------------- Manual load ---------------- */
 function loadFromFile() {
   const file = csvInput.files[0];
   if (!file) { alert('Please select a CSV file first.'); return; }
   BASE_PATH = basePathInput.value || 'structures';
   const reader = new FileReader();
-  reader.onload = function(e) { loadFromCSVText(e.target.result); };
+  reader.onload = e => loadFromCSVText(e.target.result);
   reader.readAsText(file);
 }
-
-function handleFileSelect(event) {
-  const file = event.target.files[0];
+function handleFileSelect(e){
+  const file = e.target.files[0];
   loadBtn.disabled = !(file && file.name.endsWith('.csv'));
 }
 
@@ -284,25 +336,30 @@ function loadFromCSVText(text){
   for (const k of req){ if (!header.includes(k)){ alert('Missing column: '+k); return; } }
   const idx = Object.fromEntries(header.map((h,i)=>[h,i]));
   const hasImageCol = header.includes('image');
+
   const deck = [];
   for (let r=1; r<rows.length; r++){
-    const row = rows[r]; if (!row.length) continue;
-    const Drug = row[idx.drug] || ''; const Category = row[idx.category] || '';
+    const row = rows[r];
+    if (!row.length) continue;
+    const Drug = row[idx.drug] || '';
+    const Category = row[idx.category] || '';
     if (!Drug || !Category) continue;
+
     const targets = splitMulti(row[idx.target]);
     const therapeutic = splitMulti(row[idx.therapeutic]);
     const sar = splitMulti(row[idx.sar]);
     const pk = splitMulti(row[idx.pk]);
     const imageOverride = hasImageCol ? (row[idx.image] || '').trim() : '';
+
     const candidates = buildImageCandidates(BASE_PATH, Category, Drug, imageOverride);
     deck.push({ name: Drug, category: Category, imgCandidates: candidates, targets, therapeutic, sar, pk });
   }
+
   if (!deck.length){ alert('No valid rows found.'); return; }
   FULL_DECK = deck;
   buildFilters();
   enablePlayUI(true);
   clearTable();
-  document.getElementById('fileInputContainer').style.display = 'none';
 }
 
 function enablePlayUI(on){
@@ -313,7 +370,8 @@ function enablePlayUI(on){
 /* ---------------- Filters ---------------- */
 function buildFilters(){
   const cats = Array.from(new Set(FULL_DECK.map(c=>c.category))).sort();
-  const list = document.getElementById('filterList'); list.innerHTML = '';
+  const list = document.getElementById('filterList');
+  list.innerHTML = '';
   SELECTED_CATS = new Set(cats);
   cats.forEach(cat=>{
     const id = 'cat_'+cat;
@@ -330,21 +388,23 @@ function filteredDeck(){ return !SELECTED_CATS.size ? [] : FULL_DECK.filter(c =>
 
 /* ---------------- Helpers ---------------- */
 function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
+
 function makeCardEl(card, clickHandler=null, fixed=false){
   const el = document.createElement('div');
   el.className = 'card' + (fixed ? ' fixed' : '');
-  el.title = card.name;
+  /* no el.title => no hover tooltip */
 
   const struct = document.createElement('div');
   struct.className = 'structure';
 
+  // Exact per-image aspect ratio
   const orient = (im)=>{
-    const r = im.naturalWidth / im.naturalHeight;
-    el.classList.remove('landscape','portrait','square');
-    if (!Number.isFinite(r)) return;
-    if (r > 1.15) el.classList.add('landscape');
-    else if (r < 0.85) el.classList.add('portrait');
-    else el.classList.add('square');
+    const w = im.naturalWidth || 1;
+    const h = im.naturalHeight || 1;
+    const ratio = w / h;
+    // Optional clamp so cards don’t get absurdly tall or skinny
+    const clamped = Math.max(0.7, Math.min(2.0, ratio));
+    struct.style.aspectRatio = `${clamped} / 1`;
   };
 
   const img = createSmartImage(
@@ -354,7 +414,6 @@ function makeCardEl(card, clickHandler=null, fixed=false){
     orient
   );
 
-  // In case the image is already cached before handlers attach
   if (img.complete && img.naturalWidth) orient(img);
 
   struct.appendChild(img);
@@ -380,15 +439,26 @@ function bestGrouping(cards){
   let best = {tier:999, matches:0, specificity:0, reason:"No grouping", cat:null, value:null, members:[]};
   CATEGORY_ORDER.forEach((cat, idx)=>{
     const map = new Map();
-    for (const c of cards){ (c[cat]||[]).forEach(v=>{ if (!map.has(v)) map.set(v, []); map.get(v).push(c); }); }
+    for (const c of cards){
+      (c[cat]||[]).forEach(v=>{
+        if (!map.has(v)) map.set(v, []);
+        map.get(v).push(c);
+      });
+    }
     for (const [val, list] of map.entries()){
-      const cand = { tier: idx+1, matches: list.length, specificity: (val||"").length, reason: `${val} (${cat}, x${list.length})`, cat, value: val, members: list };
+      const cand = { tier: idx+1, matches: list.length, specificity: (val||"").length,
+        reason: `${val} (${cat}, x${list.length})`, cat, value: val, members: list };
       if (isBetter(cand, best)) best = cand;
     }
   });
   return best;
 }
-function isBetter(a,b){ if (a.tier !== b.tier) return a.tier < b.tier; if (a.matches !== b.matches) return a.matches > b.matches; if (a.specificity !== b.specificity) return a.specificity > b.specificity; return (a.reason||"") > (b.reason||""); }
+function isBetter(a,b){
+  if (a.tier !== b.tier) return a.tier < b.tier;
+  if (a.matches !== b.matches) return a.matches > b.matches;
+  if (a.specificity !== b.specificity) return a.specificity > b.specificity;
+  return (a.reason||"") > (b.reason||"");
+}
 function explainEval(ev){ const names = {1:"Target",2:"Therapeutic",3:"SAR",4:"PK"}; return `${names[ev.tier]} • ${ev.reason}`; }
 function compareEval(a,b){ return isBetter(a,b) ? 1 : (isBetter(b,a) ? -1 : 0); }
 
@@ -401,18 +471,26 @@ resetBtn.addEventListener('click', resetGame);
 function clearTable(){
   ['playerPrivate','community','playerSelected','aiSelected','playerEval','aiEval'].forEach(id => document.getElementById(id).innerHTML = '');
   document.getElementById('selCount').textContent = '0';
-  playerZone.classList.remove('reveal-meta'); aiZone.classList.remove('reveal-meta');
+  playerZone.classList.remove('reveal-meta');
+  aiZone.classList.remove('reveal-meta');
   cardCounter.textContent = '0/6';
 }
-function enableButtons(on){ dealBtn.disabled = !on; scoreBtn.disabled = !on; selectBtn.disabled = !on; resetBtn.disabled = !on; }
+function enableButtons(on){
+  dealBtn.disabled = !on; scoreBtn.disabled = !on; selectBtn.disabled = !on; resetBtn.disabled = !on;
+}
 
 function deal(){
   const deck = filteredDeck();
   if (deck.length < 10){ alert("Not enough cards in selected categories (need ≥ 10)."); return; }
   const pool = shuffle([...deck]);
-  playerPrivate = pool.splice(0,4); aiPrivate = pool.splice(0,4); community = pool.splice(0,2);
-  playerSelection = []; aiSelection = []; renderAll();
+  playerPrivate = pool.splice(0,4);
+  aiPrivate     = pool.splice(0,4);
+  community     = pool.splice(0,2);
+  playerSelection = [];
+  aiSelection     = [];
+  renderAll();
 }
+
 function renderAll(){
   const pPriv = document.getElementById('playerPrivate');
   const comm  = document.getElementById('community');
@@ -420,35 +498,60 @@ function renderAll(){
   const aSel  = document.getElementById('aiSelected');
   const pEval = document.getElementById('playerEval');
   const aEval = document.getElementById('aiEval');
-  [pPriv, comm, pSel, aSel].forEach(x => x.innerHTML=""); pEval.innerHTML = ""; aEval.innerHTML="";
-  playerZone.classList.remove('reveal-meta'); aiZone.classList.remove('reveal-meta');
+
+  [pPriv, comm, pSel, aSel].forEach(x => x.innerHTML="");
+  pEval.innerHTML = ""; aEval.innerHTML="";
+  playerZone.classList.remove('reveal-meta');
+  aiZone.classList.remove('reveal-meta');
+
   [...playerPrivate, ...community].forEach(card=>{
     const el = makeCardEl(card, (c,node)=>{
       const idx = playerSelection.indexOf(c);
       if (idx>=0){ playerSelection.splice(idx,1); node.classList.remove('selected'); }
       else {
-        if (playerSelection.length >= MAX_SELECTION) { alert(`You can only select up to ${MAX_SELECTION} cards!`); return; }
-        playerSelection.push(c); node.classList.add('selected');
+        if (playerSelection.length >= MAX_SELECTION) {
+          alert(`You can only select up to ${MAX_SELECTION} cards!`);
+          return;
+        }
+        playerSelection.push(c);
+        node.classList.add('selected');
       }
       updateSelected();
     });
     if (playerSelection.includes(card)) el.classList.add('selected');
     (playerPrivate.includes(card) ? pPriv : comm).appendChild(el);
   });
-  updateSelected(); enableButtons(true);
+  updateSelected();
+  enableButtons(true);
 }
+
 function updateSelected(){
-  const pSel = document.getElementById('playerSelected'); pSel.innerHTML = '';
+  const pSel = document.getElementById('playerSelected');
+  pSel.innerHTML = '';
   playerSelection.forEach(c => pSel.appendChild(makeCardEl(c, null, true)));
   document.getElementById('selCount').textContent = String(playerSelection.length);
   cardCounter.textContent = `${playerSelection.length}/${MAX_SELECTION}`;
 }
+
 function selectAllCards(){
   const allCards = [...playerPrivate, ...community];
-  if (allCards.length > MAX_SELECTION) { alert(`Too many cards available (${allCards.length}). Maximum selection is ${MAX_SELECTION}.`); return; }
-  playerSelection = [...allCards]; renderAll();
+  if (allCards.length > MAX_SELECTION) {
+    alert(`Too many cards available (${allCards.length}). Maximum selection is ${MAX_SELECTION}.`);
+    return;
+  }
+  playerSelection = [...allCards];
+  renderAll();
 }
-function resetGame(){ playerSelection = []; aiSelection = []; clearTable(); enableButtons(false); selectBtn.disabled = true; resetBtn.disabled = true; }
+
+function resetGame(){
+  playerSelection = [];
+  aiSelection = [];
+  playerPrivate = [];
+  aiPrivate = [];
+  community = [];
+  clearTable();
+  enableButtons(true);
+}
 
 /* Opponent optimizes over (aiPrivate + community) */
 function aiChoose(){
@@ -461,13 +564,24 @@ function scoreRound(){
   if (!playerSelection.length){ alert('Select at least one card.'); return; }
   const pEv = bestGrouping(playerSelection);
   const aEv = aiSelection.length ? bestGrouping(aiSelection) : aiChoose();
-  playerZone.classList.add('reveal-meta'); aiZone.classList.add('reveal-meta');
-  const pSel = document.getElementById('playerSelected'); const aSel = document.getElementById('aiSelected');
-  const pEval = document.getElementById('playerEval'); const aEval = document.getElementById('aiEval');
-  pSel.innerHTML = ''; pEv.members.forEach(c => pSel.appendChild(makeCardEl(c, null, true)));
-  aSel.innerHTML = ''; aEv.members.forEach(c => aSel.appendChild(makeCardEl(c, null, true)));
+
+  playerZone.classList.add('reveal-meta');
+  aiZone.classList.add('reveal-meta');
+
+  const pSel = document.getElementById('playerSelected');
+  const aSel = document.getElementById('aiSelected');
+  const pEval = document.getElementById('playerEval');
+  const aEval = document.getElementById('aiEval');
+
+  pSel.innerHTML = '';
+  pEv.members.forEach(c => pSel.appendChild(makeCardEl(c, null, true)));
+
+  aSel.innerHTML = '';
+  aEv.members.forEach(c => aSel.appendChild(makeCardEl(c, null, true)));
+
   pEval.innerHTML = `<p class="score">You: ${explainEval(pEv)} — cards used: ${pEv.matches}</p>`;
   aEval.innerHTML = `<p class="score">Opponent: ${explainEval(aEv)} — cards used: ${aEv.matches}</p>`;
+
   const result = compareEval(pEv, aEv);
   if (result>0) aEval.innerHTML += "<p>Result: You <strong>WIN</strong> 🎉</p>";
   else if (result<0) aEval.innerHTML += "<p>Result: You <strong>LOSE</strong> 😬</p>";
